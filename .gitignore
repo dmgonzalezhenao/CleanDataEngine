@@ -1,0 +1,26 @@
+# --- Python ---
+# Ignora carpetas de caché que crea Python automáticamente
+__pycache__/
+*.pyc
+
+# --- Herramientas de Desarrollo ---
+# Ignoramos el script que crea los datos de prueba
+generador.py
+
+# --- Seguridad de Datos (CRÍTICO) ---
+# Ignora todos los archivos CSV dentro de input y output.
+# Esto evita que subas datos reales o privados a GitHub por error.
+input/*.csv
+output/*.csv
+
+# EXCEPCIÓN: Permitir el archivo de muestra para reclutadores
+!input/sample.csv
+
+# --- Archivos de Windows ---
+# Archivos basura que crea Windows para las miniaturas de carpetas
+Thumbs.db
+desktop.ini
+
+# --- Git ---
+# Ignora el archivo de notas si lo tienes abierto
+.gitignore.txt
