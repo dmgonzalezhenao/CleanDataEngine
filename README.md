@@ -14,10 +14,12 @@ Manejo de Errores Robusto: Gestión de excepciones para prevenir cierres inesper
 
 Arquitectura Escalable: Estructura modular preparada para integrarse con bases de datos SQL en el futuro.
 
-🛠️ Tecnologías Utilizadas
-Lenguaje: Python 3.x
+## 🛠️ Tecnologías Utilizadas
 
-Librerías Estándar: os, re, csv, time (No requiere instalaciones externas).
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white)
+![RegEx](https://img.shields.io/badge/RegEx-42a5f5?style=for-the-badge&logo=regex&logoColor=white)
 
 📦 Estructura del Proyecto
 Plaintext
