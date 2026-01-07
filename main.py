@@ -1,6 +1,6 @@
 """
 CleanData Engine v1.0
-Autor: [Tu Nombre]
+Autor: Daniel Mitchel González Henao
 Descripción: Herramienta de automatización para limpieza de CSV con validación Regex.
 """
 import os
