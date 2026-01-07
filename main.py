@@ -15,7 +15,14 @@ def inicializar_entorno():
 
 def limpiar_archivo(ruta_entrada, ruta_salida):
     patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    
+
+    #Diccionario de contadores para analizar el porcentaje de pérdidas de datos
+
+    estadisticas = {
+        "totales": 0,
+        "buenos": 0,
+        "malos": 0,
+    }
     try:
         # 1. Contar líneas para la barra
         with open(ruta_entrada, 'r', encoding='utf-8', errors='ignore') as f:
@@ -37,11 +44,20 @@ def limpiar_archivo(ruta_entrada, ruta_salida):
             procesadas = 0
 
             for fila in lector:
+                #Contamos cada línea analizada
+                estadisticas["totales"] += 1
                 # Buscamos la columna que contenga 'email' (sin importar mayúsculas)
                 columna_email = next((k for k in fila if 'email' in k.lower()), None)
                 
-                if columna_email and re.match(patron, fila[columna_email].strip()):
-                    escritor.writerow(fila)
+                if columna_email:
+                    email_sucio = fila[columna_email].strip()
+                    
+                    if re.match(patron, email_sucio):
+                        escritor.writerow(fila)
+                        estadisticas["buenos"] += 1
+                    else:
+                        # Si no cumple el patron, es un registro malo
+                        estadisticas["malos"] += 1
 
                 # Actualizar barra
                 procesadas += 1
@@ -50,6 +66,13 @@ def limpiar_archivo(ruta_entrada, ruta_salida):
                 if progreso > pasado:
                     print("█", end="", flush=True)
 
+            #Imprimir las estadísticas de los datos totales analizados, los válidos, los descartados
+            #y la efectividad
+            total = estadisticas["totales"] if estadisticas["totales"] > 0 else 1
+            print(f"\n\n--- REPORTE FINAL ---")
+            print(f"✅ Válidos: {estadisticas['buenos']}")
+            print(f"❌ Descartados: {estadisticas['malos']}")
+            print(f"📊 Efectividad: {(estadisticas['buenos'] / total) * 100:.1f}%")
     except Exception as e:
         print(f"\n❌ Error crítico en archivo: {e}")
 
