@@ -3,9 +3,31 @@ CleanData Engine v1.0
 Autor: Daniel Mitchel González Henao
 Descripción: Herramienta de automatización para limpieza de CSV con validación Regex.
 """
-import os
 import re
 import csv
+import sqlite3
+from pathlib import Path
+
+def main():
+    inicializar_entorno()
+    while True:
+        archivos = [f for f in os.listdir("input") if f.endswith('.csv')]
+        
+        if not archivos:
+            print("❌ No hay archivos .csv en 'input/'. Agrega archivos y presiona Enter.")
+            input()
+            continue # Vuelve a buscar archivos
+
+        opcion = mostrar_menu(len(archivos))
+        
+        if opcion == "1":
+            procesar_carpeta(archivos)
+            print("\n✨ Proceso terminado.")
+            input("Presiona Enter para volver al menú...")
+        elif opcion == "2":
+            print("👋 Saliendo..."); break
+        else:
+            print("✖️ Opción no válida.")
 
 def inicializar_entorno():
     for carpeta in ["input", "output"]:
@@ -24,7 +46,6 @@ def limpiar_archivo(ruta_entrada, ruta_salida):
         "malos": 0,
     }
     try:
-        # 1. Contar líneas para la barra
         with open(ruta_entrada, 'r', encoding='utf-8', errors='ignore') as f:
             total_lineas = sum(1 for linea in f)
         
@@ -92,22 +113,4 @@ def mostrar_menu(cantidad):
     return input("👉 Selecciona: ").strip()
 
 if __name__ == "__main__":
-    inicializar_entorno()
-    while True:
-        archivos = [f for f in os.listdir("input") if f.endswith('.csv')]
-        
-        if not archivos:
-            print("❌ No hay archivos .csv en 'input/'. Agrega archivos y presiona Enter.")
-            input()
-            continue # Vuelve a buscar archivos
-
-        opcion = mostrar_menu(len(archivos))
-        
-        if opcion == "1":
-            procesar_carpeta(archivos)
-            print("\n✨ Proceso terminado.")
-            input("Presiona Enter para volver al menú...")
-        elif opcion == "2":
-            print("👋 Saliendo..."); break
-        else:
-            print("✖️ Opción no válida.")
+    main()
