@@ -3,7 +3,7 @@ CleanData Engine v1.0
 Autor: Daniel Mitchel González Henao
 Descripción: Herramienta de automatización para limpieza de CSV con validación Regex.
 """
-import re
+
 import csv
 import sqlite3
 from pathlib import Path
@@ -37,19 +37,7 @@ def inicializar_entorno():
             os.makedirs(carpeta)
             print(f"📁 Carpeta '{carpeta}' creada.")
 
-def clean_file(register):
-    patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
-    try:
-        if not register or not isinstance(register, str):
-            return None
-        email = register.strip().lower()
-        if re.match(patron, email):
-            return register
-        else: 
-            return
-    except Exception as e:
-        print(f"\n❌ Error crítico en archivo: {e}")
     """except
         # 2. Procesar con DictReader (para que no importe el orden de las columnas)
         with open(input_route, 'r', encoding='utf-8', errors='ignore') as f_in, \
