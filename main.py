@@ -8,6 +8,8 @@ import csv
 import sqlite3
 from pathlib import Path
 
+DB_NAME = "clean_data.db"
+
 def main():
     inicializar_entorno()
     while True:
@@ -35,24 +37,22 @@ def inicializar_entorno():
             os.makedirs(carpeta)
             print(f"📁 Carpeta '{carpeta}' creada.")
 
-def limpiar_archivo(ruta_entrada, ruta_salida):
+def clean_file(register):
     patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
-    #Diccionario de contadores para analizar el porcentaje de pérdidas de datos
-
-    estadisticas = {
-        "totales": 0,
-        "buenos": 0,
-        "malos": 0,
-    }
     try:
-        with open(ruta_entrada, 'r', encoding='utf-8', errors='ignore') as f:
-            total_lineas = sum(1 for linea in f)
-        
-        if total_lineas == 0: return
-
+        if not register or not isinstance(register, str):
+            return None
+        email = register.strip().lower()
+        if re.match(patron, email):
+            return register
+        else: 
+            return
+    except Exception as e:
+        print(f"\n❌ Error crítico en archivo: {e}")
+    """except
         # 2. Procesar con DictReader (para que no importe el orden de las columnas)
-        with open(ruta_entrada, 'r', encoding='utf-8', errors='ignore') as f_in, \
+        with open(input_route, 'r', encoding='utf-8', errors='ignore') as f_in, \
              open(ruta_salida, 'w', encoding='utf-8', newline='') as f_out:
             
             lector = csv.DictReader(f_in)
@@ -95,7 +95,7 @@ def limpiar_archivo(ruta_entrada, ruta_salida):
             print(f"❌ Descartados: {estadisticas['malos']}")
             print(f"📊 Efectividad: {(estadisticas['buenos'] / total) * 100:.1f}%")
     except Exception as e:
-        print(f"\n❌ Error crítico en archivo: {e}")
+        print(f"\n❌ Error crítico en archivo: {e}")"""
 
 def procesar_carpeta(archivos):
     print(f"\n🚀 Procesando {len(archivos)} archivos...\n")
