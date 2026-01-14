@@ -49,7 +49,7 @@ def save_to_db(connection, data_to_save, original_data, source_file):
     else:
         query = "INSERT INTO dirty_emails (raw_data, reason, source_file) VALUES (?, ?, ?)"
         cursor.execute(query, (original_data, "Invalid Format", source_file))
-
+    connection.commit()
 
 def update_file_log(connection, file_name, total_rows, status):
     """
@@ -80,3 +80,30 @@ def get_file_status(connection, file_name):
     
     # Si existe el registro, devuelve el texto (ej: 'Completado'), si no, devuelve None
     return result[0] if result else None
+
+# Ver un reporte de todos los archivos ya escaneados
+def view_report(conexion):
+    cursor = conexion.cursor()
+    # Se leen los registros en la tabla processing_log para ver los procesos de cada archivo en el momento
+    cursor.execute("SELECT file_name, total_records, status, completed_at FROM processing_log")
+    filas = cursor.fetchall()
+
+    # Si no hay reportes
+    if not filas:
+        print("\n📭 No hay historial todavía.")
+        return
+    # Diseño títulos
+    print("\n" + "="*70)
+    print(f"{'ARCHIVO':<25} | {'FILAS':<8} | {'ESTADO'}")
+    print("-" * 70)
+
+    # Imprimir cada registro de la tabla
+    for f in filas:
+        name, total, status, timestamp = f
+        # f[0]=name, f[1]=total, f[2]=status
+        if len(name) > 22:
+            display_name = name[:22] + ".."
+        else:
+            display_name = name
+        print(f"{display_name:<25} | {total:<8} | {status} ")
+    print("="*70)
