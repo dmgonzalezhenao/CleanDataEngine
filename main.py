@@ -36,6 +36,7 @@ def main():
             # Verificamos si no hay archivos antes de hacer cualquier proceso
             if not files:
                 print("📭 No se encontraron archivos CSV en la carpeta 'input'.")
+                print("Agrega archivos CSV y vuelve a intentarlo.\n")
             else:
                 # Recorrer archivo por archivo para procesar y limpiar cada uno
                 for route_file in files:
@@ -64,7 +65,6 @@ def main():
             conn.close()
             break
 
-        input("Presiona cualquier tecla para volver al menu...")
 
 def inicializar_entorno():
     for dir in ["input", "output"]:
@@ -78,28 +78,31 @@ def procesar_archivo(input_route, output_route, connection):
     procesadas = 0
 
     try:
-        # Empezamos con el proceso
+        # Empezamos con el proceso: se actualiza el estado del archivo para llevar registro
+        # de cuantas filas fueron limpiadas
         update_file_log(connection, input_route.name, 0, "En Proceso")
 
+        # Se abren las dos rutas de archivos
         with open(input_route, 'r', encoding='utf-8', errors='ignore') as f_in, \
-             open(output_route, 'w', encoding='utf-8', newline='') as f_out:
+            open(output_route, 'w', encoding='utf-8', newline='') as f_out:
             
+            # Se guardan las filas de entrada en un diccionario
             lector = csv.DictReader(f_in)
+            # Se crea la variable para escribir en el diccinario y se crea el header automáticamente
             escritor = csv.DictWriter(f_out, fieldnames=lector.fieldnames)
             escritor.writeheader()
 
             for fila in lector:
 
                 email_original = fila.get('email', '') # Cambia 'email' por el nombre de tu columna
-            
+
                 # Limpiar por fila
                 email_limpio = clean_file(email_original)
-            
+
                 # Guardar en DB 
                 save_to_db(connection, email_limpio, email_original, input_route.name)
             
-                # Escribir en el nuevo CSV
-                # Aquí decides si escribes toda la fila o solo el email
+                # Escribir en el nuevo f_out los archivos distinguiendo si son validos o no
                 if email_limpio:
                     fila['email'] = email_limpio
                 else:
