@@ -33,7 +33,8 @@ CleanDataEngine/
 └── README.md          # Project documentation
 ```
 
-🔧 How to Use
+## 🔧 How to Use  
+
 Clone the repository: git clone https://github.com/your-username/CleanDataEngine.git
 
 Prepare your data: Place your .csv files inside the /input folder.
@@ -55,21 +56,21 @@ march_leads.csv           ║ 5000     ║ ✅ DONE         ║ 2026-01-13
 test_data_error.csv       ║ 402      ║ ❌ ERROR LINE 403║ 2026-01-13
 ======================================================================
 
-🛡️ Security & Best Practices
+## 🛡️ Security & Best Practices
 Memory Efficiency: Processing is done line-by-line to prevent high RAM consumption on large files.
 
 Data Integrity: The software never modifies the original source; it always generates a clean copy.
 
 Path Safety: Uses pathlib for robust cross-platform file management.
 
-🛠️ Future Roadmap (AI DevOps Specialization)
+## 🛠️ Future Roadmap (AI DevOps Specialization)
 [ ] Containerization (Docker): Create a lightweight image for instant deployment.
 
 [ ] FastAPI Integration: Convert the engine into a REST API for cloud-based services.
 
 [ ] Vector DB & AI: Implement similarity analysis using embeddings for string deduplication.
 
-👤 Author
+### 👤 Author
 Developed with dedication by Daniel Mitchell González Henao.
 
 LinkedIn: linkedin.com/in/daniel-gonzález-551b22305
